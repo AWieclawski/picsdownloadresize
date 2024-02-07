@@ -34,24 +34,24 @@ public class Main {
 
         for (int r = 0; r < CHAPTERS; r++) {
             int i = 1;
-            while (i <= PICS) {
-                String tmpDir = String.format("%s/R%03d", BASE_DIR, r);
-                if (createDirectory(tmpDir)) {
-                    localFilename = String.format("%s/%03d.jpg", tmpDir, i);
-                    url = String.format("%s/R%d/%d.png",SOURCE_URL, r, i);
-                    if (fileDownload()) {
-                        log.info(" + Download {} file / chapter {}. OK", i, r);
-                        tmpDir = String.format("%s/R%03d", RESIZED_DIR, r);
-                        if (resizeProceed(localFilename, tmpDir, i)) {
-                            log.info(" + + Resize {} file / chapter {}. OK", i, r);
-                        } else {
-                            log.warn(" - - Resize {} file / chapter {}. Failed!", i, r);
-                        }
+            String tmpDir = String.format("%s/R%03d", BASE_DIR, r);
+            if (createDirectory(tmpDir)) {
+                localFilename = String.format("%s/%03d.jpg", tmpDir, i);
+                url = String.format("%s/R%d/%d.png",SOURCE_URL, r, i);
+                if (fileDownload()) {
+                    log.info(" + Download {} file / chapter {}. OK", i, r);
+                    tmpDir = String.format("%s/R%03d", RESIZED_DIR, r);
+                    if (resizeProceed(localFilename, tmpDir, i)) {
+                        log.info(" + + Resize {} file / chapter {}. OK", i, r);
                     } else {
-                        log.warn(" - Download {} file / chapter {}. Failed!", i, r);
+                        log.warn(" - - Resize {} file / chapter {}. Failed!", i, r);
                     }
+                } else {
+                    log.warn(" - Download {} file / chapter {}. Failed!", i, r);
                 }
-                i++;
+                while (i <= PICS) {
+                    i++;
+                }
             }
         }
 
